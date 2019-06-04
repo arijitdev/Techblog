@@ -50,4 +50,14 @@ public class PostService {
 		return repository.getPost(postId);
 	
 	}
+	
+	public void updatePost(Post updatePost) {
+		
+		updatePost.setDate(new Date());
+		repository.updatePost(updatePost);
+	}
+	
+	public void deletePost(Integer postId) {
+		repository.deletePost(postId);
+	}
 }

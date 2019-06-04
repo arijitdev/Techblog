@@ -52,8 +52,16 @@ public class PostController {
 	}
 	
 	@RequestMapping(value = "/editPost", method = RequestMethod.PUT)
-	public String editPostSubmit(@RequestParam(name="postId") Integer postId, Post post) {
-	   
+	public String editPostSubmit(@RequestParam(name="postId") Integer postId, Post updatedPost) {
+		updatedPost.setId(postId);
+	   postservice.updatePost(updatedPost);
 	   return "redirect:/posts";
 	}
+	
+	@RequestMapping(value = "/deletePost", method = RequestMethod.DELETE)
+	public String deletePostSubmit(@RequestParam(name="postId") Integer postId) {
+		postservice.deletePost(postId);
+		return "redirect:/posts";
+	}
+	
 }
