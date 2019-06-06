@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.arijit.model.Post;
 import com.arijit.model.User;
+import com.arijit.model.UserProfile;
 import com.arijit.service.PostService;
 import com.arijit.service.UserService;
 
@@ -46,13 +47,20 @@ public class UserController {
 	}
 	
 	@RequestMapping("users/registration")
-    public String registration() {
-        return "users/registration";
-    }
+	public String registration(Model model) {
+	   User user = new User();
+	   UserProfile profile = new UserProfile();
+	   user.setProfile(profile);
+
+	   model.addAttribute("User", user);
+
+	   return "users/registration";
+	}
 	
-	@RequestMapping(value = "users/registration", method=RequestMethod.POST)
-    public String registerUser(User user) {
-        return "users/login";
-    }
+	@RequestMapping(value = "users/registration", method = RequestMethod.POST)
+	public String registerUser(User user) {
+		userservice.registerUser(user);
+	   return "users/login";
+	}
 	
 }
