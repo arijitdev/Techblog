@@ -3,6 +3,8 @@ package com.arijit.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,8 +32,10 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="users/login",method=RequestMethod.POST)
-	public String loginUser(User user) {
-        if(userservice.login(user)) {
+	public String loginUser(User user,HttpSession session) {
+		User existingUser=userservice.login(user);
+        if(existingUser!=null) {
+        	session.setAttribute("Loggeduser", existingUser);
             return "redirect:/posts";
         }
         else {
@@ -40,7 +44,9 @@ public class UserController {
     }
 	
 	@RequestMapping(value="users/logout",method=RequestMethod.POST)
-	public String logout(Model model) {
+	public String logout(Model model,HttpSession session) {
+		
+		session.invalidate();
 		List<Post> posts = postservice.getAllPosts();
 		model.addAttribute("posts", posts);
 		return "index";
